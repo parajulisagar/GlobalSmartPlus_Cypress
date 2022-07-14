@@ -1,0 +1,6 @@
+{
+    "baseUrl":"https://dev-customer.swifttech.com.np",
+    "chromeWebSecurity": false ,
+    "failOnStatusCode": false
+   
+}
