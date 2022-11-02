@@ -1,36 +1,54 @@
 /// <reference types="cypress" />
 
-describe("FundTransfer Specifcation of Global Smart Plus", ()=>{
+describe("AirlineTicket Specifcation of Global Smart Plus", ()=>{
  
-    let email = "sagar@yopmail.com"
+    let email = "sagar123@yopmail.com"
     let password = 'autoTest@0110'
     let Child = '1'
-    let Adult = '0'
+    let Adult = '1'
     let fName = 'SAGAR PARAJULI'
     let mobile = '9842605061'
+    let accno = '20707010010056'
     let totalPassenger = parseInt(Child)+parseInt(Adult)
-    before(() => {
-        cy.visit('');
-        cy.log(totalPassenger)
-        cy.Clogin(email, password);
+    
+    before(function () {
+        cy.visit('')
+        cy.wait(2000)
+        cy.fixture('credentials').then((cred)=>{
+            this.cred = cred;
+        })
+        cy.get("body").then($body => {
+            if ($body.find('.modal-title').length > 0){
+                cy.wait(1000)
+                cy.get('#ok').click()
+                cy.wait(1000)
+                if ($body.find('[data-test="userDataField"]').length > 0) {   //evaluates as true
+                    cy.Clogin(email, password);      
+                    }
+            }
+            else if ($body.find('[data-test="userDataField"]').length > 0) {   //evaluates as true
+                cy.Clogin(email, password);      
+                }
+        })
     });
     
-    it('Successful  One way Airline ticket booking', () => {
+    it('Successful  One way Airline ticket booking', function ()  {
+        cy.wait(3000)
         cy.visit('/dashboard/airlines/search-flight')
         cy.wait(5000)
         cy.get('[name="SectorFrom"]').select('BHARATPUR')
         cy.wait(1000)
         cy.get('[name="SectorTo"]').select('KATHMANDU')
-        cy.get('input').clear().type('2022-08-08')
+        cy.get('input').clear().type('2022-08-29')
         cy.wait(1000)
-        cy.get('[name="AdultCount"]').select(Adult)
+        cy.get('form > :nth-child(3) > :nth-child(1) > .form-control').select(Adult, {force: true})
         cy.wait(1000)
         cy.get('[name="ChildCount"]').select(Child)
         cy.wait(1000)
         cy.get('form > .btn').click()
-        cy.get(':nth-child(4) > .ticket_wrapper > .book_now',{ timeout: 100000 }).click({ force: true })
+        cy.get(':nth-child(6) > .ticket_wrapper > .book_now',{ timeout: 100000 }).click({ force: true })
         cy.get('[name="fromAccountNumber"]',{ timeout: 100000 }).then((w)=>{
-            cy.get('[name="fromAccountNumber"]').select(1)
+            // cy.get('#fromAccountNumber').select(accno)
             cy.get('#ContactPersonName').clear().type(fName)
             cy.get('#ContactPersonMobile').clear().type(mobile)
             cy.get('#ContactPersonEmail').clear().type(email)
@@ -58,25 +76,26 @@ describe("FundTransfer Specifcation of Global Smart Plus", ()=>{
     });
 
 
-    it.only('Successful  One way Airline ticket booking', () => {
+    it.only('Successful  Round Airline ticket booking', () => {
+        cy.wait(3000)
         cy.visit('/dashboard/airlines/search-flight',{ timeout: 100000})
         cy.get('#tabs-tab-R',{ timeout: 100000}).click()
         cy.get('[name="SectorFrom"]').select('BHARATPUR')
         cy.wait(1000)
         cy.get('[name="SectorTo"]').select('KATHMANDU')
-        cy.get('[placeholder="Select departure date"]').click().clear().type('2022-08-08')
-        cy.get('[placeholder="Select return date"]').click().clear().type('2022-08-10')
+        cy.get('[placeholder="Select departure date"]').click().clear().type('2022-08-29')
+        cy.get('[placeholder="Select return date"]').click().clear().type('2022-08-29')
         cy.wait(1000)
         cy.get('[name="AdultCount"]').select(Adult)
         cy.wait(1000)
         cy.get('[name="ChildCount"]').select(Child)
         cy.wait(1000)
         cy.get('form > .btn').click()
-        cy.get('.active_ticket',{ timeout: 100000 }).click()
-        cy.get(':nth-child(4) > .ticket_wrapper > .book_now',{ timeout: 100000 }).click({ force: true })
+        cy.get('.dashboard__content > :nth-child(5)',{ timeout: 100000 }).click()
+        cy.get(':nth-child(5) > .ticket_wrapper > .book_now',{ timeout: 100000 }).click({ force: true })
         
         cy.get('[name="fromAccountNumber"]',{ timeout: 100000 }).then((w)=>{
-            cy.get('[name="fromAccountNumber"]').select(1)
+            // cy.get('[name="fromAccountNumber"]').select(1)
             cy.get('#ContactPersonName').clear().type(fName)
             cy.get('#ContactPersonMobile').clear().type(mobile)
             cy.get('#ContactPersonEmail').clear().type(email)

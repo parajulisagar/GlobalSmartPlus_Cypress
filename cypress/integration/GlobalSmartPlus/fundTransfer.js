@@ -2,7 +2,7 @@
 
 describe("FundTransfer Specifcation of Global Smart Plus", ()=>{
  
-    let email = "sagar@yopmail.com"
+    let email = "sagar123@yopmail.com"
     let password = 'autoTest@0110'
 
     let invpw='ajsgdsjfasdkjasfiuew'
@@ -15,11 +15,28 @@ describe("FundTransfer Specifcation of Global Smart Plus", ()=>{
     let accno = 3307010894241
     let amt = 5000
     let name = 'SHACHIN BAJIMAYA'
-    before(() => {
-        cy.visit('');
-        cy.Clogin(email, password);
+    before(function () {
+        cy.visit('')
+        cy.wait(2000)
+        cy.fixture('credentials').then((cred)=>{
+            this.cred = cred;
+        })
+        cy.get("body").then($body => {
+            if ($body.find('.modal-title').length > 0){
+                cy.wait(1000)
+                cy.get('#ok').click()
+                cy.wait(1000)
+                if ($body.find('[data-test="userDataField"]').length > 0) {   //evaluates as true
+                    cy.Clogin(email, password);      
+                    }
+            }
+            else if ($body.find('[data-test="userDataField"]').length > 0) {   //evaluates as true
+                cy.Clogin(email, password);      
+                }
+        })
     });
-    it('Succcessful GIBL Fund Transfer using mobile number', () => {
+
+    it('Succcessful GIBL Fund Transfer using mobile number', function () {
         cy.visit('/dashboard/fund-transfer');
         cy.wait(2000);
         cy.get(':nth-child(1) > .manage-linked > .input-group > .form-control').type(accno);
@@ -44,7 +61,7 @@ describe("FundTransfer Specifcation of Global Smart Plus", ()=>{
 
         cy.get(':nth-child(3) > .button').click()
     });
-    it('Succcessful GIBL Fund Transfer using mobile number', () => {
+    it('Succcessful GIBL Fund Transfer using mobile number', function() {
         cy.visit('/dashboard/fund-transfer');
         cy.wait(2000);
         cy.get('#mob_num').click();
@@ -63,11 +80,30 @@ describe("FundTransfer Specifcation of Global Smart Plus", ()=>{
                 cy.get('.form-group > .form-control').type(transPin)
             })
     });
-    it.only('Succcessful IBFT using mobile number', () => {
+    it.only('Succcessful IBFT using mobile number',function () {
         cy.visit('/dashboard/fund-transfer');
         cy.wait(2000);
         cy.get('#tabs-tab-otherBanks').click()
-        cy.get(':nth-child(1) > :nth-child(1) > :nth-child(1) > .css-b62m3t-container > .css-1s2u09g-control > .css-1d8n9bt').click()
+        cy.get(':nth-child(1) > :nth-child(1) > :nth-child(1) > .css-b62m3t-container > .css-1s2u09g-control > .css-1d8n9bt').click().type('NMB')
+        cy.wait(2000)
+        cy.get('#react-select-2-option-35').click()
+        cy.get(':nth-child(2) > .manage-linked > .input-group > .form-control').type('0830122854100011')
+        cy.get('#tabs-tabpane-otherBanks > :nth-child(1) > :nth-child(2) > :nth-child(1) > .form-control').type('MUNA SHRESTHA')
+        cy.get('#tabs-tabpane-otherBanks > :nth-child(1) > :nth-child(2) > :nth-child(2) > .form-control').type('100')
+        cy.get(':nth-child(3) > .form-group > .form-control').type('Sagar Testing')
+        cy.get('#tabs-tabpane-otherBanks > .button').click()
+        
+        cy.get('.d-flex > div > .btn-primary', {timeout : 100000}).click().then(w => {
+            cy.get('.form-control').then(w => {
+        var otp = window.prompt("Enter your OTP: ");
+        cy.get('.input-group > .form-control').type(otp)
+        })
+        }).then(()=>{
+            var transPin = window.prompt("Enter your transaction pin: ");
+            cy.get(':nth-child(2) > .form-group > .form-control').type(transPin)
+        })
+
+        cy.get(':nth-child(3) > .button').click()
     });
     
 })
