@@ -2,7 +2,7 @@
 
 describe("AirlineTicket Specifcation of Global Smart Plus", ()=>{
  
-    let Child = '1'
+    let Child = '10'
     let Adult = '1'
     let totalPassenger = parseInt(Child)+parseInt(Adult)
 

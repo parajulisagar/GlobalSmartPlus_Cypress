@@ -105,7 +105,7 @@ Cypress.Commands.add('schedulePayment', () => {
             }
         })
 })
-Cypress.Commands.add('cablecarOTPtxn', () => { 
+Cypress.Commands.add('paymentOTPtxn', () => { 
     cy.get("body").then($body => {
             
         if ($body.find('.Toastify__toast-body').length > 0) {   //evaluates as true
@@ -133,7 +133,7 @@ Cypress.Commands.add('cablecarOTPtxn', () => {
             cy.get("body").then($body => {
                 
                 if ($body.find('.d-flex > :nth-child(1)').length > 0){
-                    cy.log(' Cable Car Ticket Booking successfully Completed')
+                    cy.log('Payment successfully Completed')
                 }
                 else{
                     cy.log('Transaction Failed.')

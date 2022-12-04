@@ -54,28 +54,40 @@ describe("Payments Specifcation of Global Smart Plus", ()=>{
         
     // });
 
-    it.only('Cable car booking', function () {
-        cy.visit('/dashboard/payment')
+    // it('Cable car booking', function () {
+    //     cy.visit('/dashboard/payment')
+    //     cy.wait(1000)
+    //     cy.fixture('credentials').then((cred)=>{
+    //         this.cred = cred;
+        
+    //     cy.get('[href="/dashboard/payment/cableCar"] > .listView').click()
+    //     cy.wait(1000)
+    //     cy.get('[href="/dashboard/payment/cableCar/manakamana"] > .listView').click()
+    //     cy.wait(1000)
+    //     cy.get(':nth-child(1) > :nth-child(3) > .input-group > .input-group-append > .btn',{timeout:100000}).wait(1000).click()
+    //     .then(()=>{
+    //     cy.get('.input-group > .form-control').type('Sagar')
+    //     cy.wait(1000)
+    //     cy.get(':nth-child(4) > :nth-child(2) > .form-control').type(this.cred.email)
+    //     cy.wait(1000)
+    //     cy.get('.button').click()
+    //     cy.wait(1000)
+    //     cy.paymentOTPtxn();
+        
+    //     })
+    // });
+
+    it.only('Merchant payment', function () {
+        cy.visit('/dashboard/payment/merchant')
         cy.wait(1000)
         cy.fixture('credentials').then((cred)=>{
             this.cred = cred;
-        
-        cy.get('[href="/dashboard/payment/cableCar"] > .listView').click()
-        cy.wait(1000)
-        cy.get('[href="/dashboard/payment/cableCar/manakamana"] > .listView').click()
-        cy.wait(1000)
-        cy.get(':nth-child(1) > :nth-child(3) > .input-group > .input-group-append > .btn',{timeout:100000}).wait(1000).click()
-        .then(()=>{
-        cy.get('.input-group > .form-control').type('Sagar')
-        cy.wait(1000)
-        cy.get(':nth-child(4) > :nth-child(2) > .form-control').type(this.cred.email)
-        cy.wait(1000)
+        cy.get('.input-group > .form-control').select('Binup Pay')
+        cy.get('.col-md-6 > .form-control').type(this.cred.amount)
         cy.get('.button').click()
-        cy.wait(1000)
-        cy.cablecarOTPtxn();
-        
+        cy.paymentOTPtxn();
         })
-    });
-
-})
-})
+        })
+        })
+    // })
+// })
