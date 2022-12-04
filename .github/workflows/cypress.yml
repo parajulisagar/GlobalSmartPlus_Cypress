@@ -11,7 +11,13 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v3 # use the explicit version number
+        uses: cypress-io/github-action@v4.x.x # use the explicit version number
         with:
           build: npm run build
           start: npm start
+          wait-on: 'http://localhost:3000' # Waits for above
+          # Records to Cypress Dashboard 
+          # https://docs.cypress.io/guides/dashboard/projects#Set-up-a-project-to-record
+          record: true
+          parallel: true # Runs test in parallel using settings above
+        
