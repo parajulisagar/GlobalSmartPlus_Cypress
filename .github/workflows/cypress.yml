@@ -1,4 +1,4 @@
-name: Cypress Tests GIBL
+name: Cypress Tests
 on: [push]
 jobs:
   cypress-run:
@@ -6,10 +6,10 @@ jobs:
     # Runs tests in parallel with matrix strategy https://docs.cypress.io/guides/guides/parallelization
     # https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
     # Also see warning here https://github.com/cypress-io/github-action#parallel
-    # strategy:
-    #   fail-fast: false # https://github.com/cypress-io/github-action/issues/48
-    #   matrix:
-    #     containers: [1, 2] # Uses 2 parallel instances
+    strategy:
+      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+      matrix:
+        containers: [1, 2] # Uses 2 parallel instances
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -21,7 +21,7 @@ jobs:
           # https://docs.cypress.io/guides/continuous-integration/introduction#Boot-your-server
           build: npm run build
           start: npm start
-          # wait-on: 'http://localhost:3000' # Waits for above
+          wait-on: 'http://localhost:3000' # Waits for above
           # Records to Cypress Dashboard 
           # https://docs.cypress.io/guides/dashboard/projects#Set-up-a-project-to-record
           record: true
