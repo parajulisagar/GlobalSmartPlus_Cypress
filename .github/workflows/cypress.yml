@@ -1,4 +1,4 @@
-name: Cypress Tests
+name: Cypress Tests GIBL
 on: [push]
 jobs:
   cypress-run:
