@@ -4,7 +4,7 @@ describe("Accountstatement Specifcation of Global Smart Plus", ()=>{
 
     before(function () {
         cy.visit('')
-        cy.wait(2000)
+        cy.wait(2300)
         cy.fixture('credentials').then((cred)=>{
             this.cred = cred;
         })
